@@ -2,6 +2,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.core.mail import send_mail,EmailMessage
+from django.conf import settings
+
 from .models import *
 from .serializers import *
 
@@ -90,3 +93,27 @@ class CustomerBillingAddressView(APIView):
             return Response({'msg': 'Billing address deleted sucessfully'}, status=status.HTTP_200_OK)
         except CustomerBillingAddress.DoesNotExist:
             return Response({'msg': 'Billing address not found'}, status=status.HTTP_404_NOT_FOUND) 
+
+
+
+class ContactFormAPIView(APIView):
+    def post(self, request):
+        name = request.data.get('name')
+        email = request.data.get('email')
+        message = request.data.get('message')
+
+        subject = f"Message from {name}"
+        email_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        recipient_list = ['rakibhasan2222222@gmail.com']  # Your email
+
+        # Send email with user's email in Reply-To header
+        email = EmailMessage(
+            subject,
+            email_message,
+            settings.DEFAULT_FROM_EMAIL,  # Send from your configured email
+            recipient_list,
+            headers={'Reply-To': email}   # User's email as the reply-to address
+        )
+        email.send()
+
+        return Response({"message": "Email sent successfully!"}, status=status.HTTP_200_OK)

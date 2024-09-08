@@ -165,42 +165,42 @@ def password_reset_success_email(user_email, user_data):
         print("password reset success email template not found.") 
 
 
-def payment_success_and_order_confirm_email(user_email, user_data):
+def payment_success_and_order_confirm_email(user_email, user_data, user_and_owner_data):
     try:
+        # Fetch the user email template
         email_template = EmailTemplate.objects.get(message_type='Payment success and order confirmation')
         if email_template:
-            # Log the original message before replacing placeholders
-            # print("Original message:", email_template.message)
-            
-            # Replace placeholders in the HTML message
+            # Replace placeholders for user email
             html_message = replace_placeholders(email_template.message, user_data)
-
-            # Log the message after replacing placeholders
-            # print("Message after placeholder replacement:", html_message)
-
-            # Strip HTML tags to create a plain-text version
-            plain_message = strip_tags(html_message)
-            
-            # Decode HTML entities to plain text (e.g., &rsquo; -> ’)
-            plain_message = html.unescape(plain_message)
-            
-            # Send email
-            email = EmailMessage(
-                subject=email_template.subject,
-                body=plain_message,  # Use plain text message as body
-                from_email=None,
-                to=[user_email],
-            )
-
-            # Add HTML content if required (optional)
-            email.content_subtype = 'plain'  # Set as plain text
+            plain_message = html.unescape(strip_tags(html_message))
+            email = EmailMessage(subject=email_template.subject, body=plain_message, to=[user_email])
+            email.content_subtype = 'plain'
             if email_template.attachment:
                 email.attach_file(email_template.attachment.path)
             email.send()
+
+        # Fetch the owner email template
+        email_template_owner = EmailTemplate.objects.get(message_type='Payment success and order confirmation for Owner')
+        if email_template_owner:
+            # Debug: Check user_and_owner_data before sending the email
+            # print("Owner email data before sending:", user_and_owner_data)
+
+            # Replace placeholders for owner email
+            html_message_owner = replace_placeholders(email_template_owner.message, user_and_owner_data)
+            plain_message_owner = html.unescape(strip_tags(html_message_owner))
+
+            owner_email = "rakibhasan2222222@gmail.com"
+            owner_email_message = EmailMessage(subject=email_template_owner.subject, body=plain_message_owner, to=[owner_email])
+            owner_email_message.content_subtype = 'plain'
+            if email_template_owner.attachment:
+                owner_email_message.attach_file(email_template_owner.attachment.path)
+            owner_email_message.send()
+
         else:
-            print("No active welcome email template found.")
+            print("No active email template found for the owner.")
     except EmailTemplate.DoesNotExist:
         print("Payment success and order confirmation email template not found.")
+
 
 
 def payment_failure_and_order_saved_email(user_email, user_data):

@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from Users.models import User
 from urllib.parse import urlencode
 from .models import Order,OrderItem
 from EmailTemplate.SendEmailAllTypesFuction import payment_success_and_order_confirm_email,payment_failure_and_order_saved_email
@@ -134,27 +135,52 @@ class BkashPaymentService:
                 order_items = OrderItem.objects.filter(order=order)
                 order_item_names = ', '.join([item.product.name for item in order_items])
 
+                # Owner data 
+                Owner = User.objects.get(is_admin=True)
+                OwnerName = Owner.username
+                print(OwnerName)
+
                 # Prepare user data for the email
                 total_order_amount = order.total_price
                 paid_amount = order.paid_amount
+                remain_amount = order.after_partial_cod_remain_total_price
+                print(remain_amount)
                 payment_method = order.payment_method
                 delivery_date = order.delivery_date
+                print(delivery_date)
                 user = order.user
                 user_email = user.email
                 username = user.username
+                shipping_address = order.shipping_address
+                print(shipping_address)
+                payment_type = "Partial" if order.payment_method == "Cash on Delivery" else "Full"
+                print(payment_type)
 
                 # Create a dictionary to pass user and order data to the email function
+                user_and_owner_data = {
+                    'payment_type': payment_type or 'N/A',
+                    'owner_name': OwnerName,
+                    'username': username,
+                    'order_items': order_item_names,
+                    'order_total': total_order_amount,
+                    'payment_method': payment_method,
+                    'paid_amount': paid_amount,
+                    'remain_amount': remain_amount or 'N/A',
+                    'shipping_address': shipping_address or 'N/A'
+                }
+
                 user_data = {
                     'username': username,
                     'order_items': order_item_names,
                     'order_total': total_order_amount,
                     'paid_amount': paid_amount,
                     'payment_method': payment_method,
-                    'delivery_date': delivery_date
+                    'delivery_date': delivery_date or 'N/A'
                 }
 
+
                 # Send payment success and order confirmation email
-                payment_success_and_order_confirm_email(user_email, user_data)
+                payment_success_and_order_confirm_email(user_email, user_data, user_and_owner_data)
 
                 # Redirect to the success page with payment details as query parameters
                 query_params = urlencode(data)

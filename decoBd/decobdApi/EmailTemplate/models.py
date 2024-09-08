@@ -10,6 +10,7 @@ class EmailTemplate(models.Model):
         ('password reset success', 'password reset success Message'),
         ('Payment success and order confirmation', 'Payment success and order confirmation Message'),
         ('Payment failure and order saved', 'Payment failure and order saved Message'),
+        ('Payment success and order confirmation for Owner', 'Payment success and order confirmation for Owner Message'),
     ]
 
     subject = models.CharField(max_length=255)
