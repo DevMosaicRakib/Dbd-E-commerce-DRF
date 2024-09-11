@@ -7,7 +7,7 @@ class EmailTemplate(models.Model):
         ('Welcome for registration', 'Welcome Message'),
         ('Password change success', 'Password change success Message'),
         ('Send password reset link', 'Send password reset link Message'),
-        ('password reset success', 'password reset success Message'),
+        ('Password reset success', 'password reset success Message'),
         ('Payment success and order confirmation', 'Payment success and order confirmation Message'),
         ('Payment failure and order saved', 'Payment failure and order saved Message'),
         ('Payment success and order confirmation for Owner', 'Payment success and order confirmation for Owner Message'),

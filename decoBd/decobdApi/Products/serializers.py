@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, ProductImage
+from .models import Product, ProductImage, FeaturedProduct
 from CategoryAndSubcategory.serializers import CategorySerializer, SubCategorySerializer
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,3 +15,9 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ('id', 'name', 'price', 'discount_price', 'description', 'Category', 'Sub_category', 'tags', 'stock','product_imgs')
 
+class FeaturedProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    
+    class Meta:
+        model = FeaturedProduct
+        fields = ('id', 'product')

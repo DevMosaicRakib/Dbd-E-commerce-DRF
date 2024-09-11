@@ -184,7 +184,7 @@ BKASH_APP_KEY = os.getenv('BKASH_APP_KEY')
 BKASH_APP_SECRET = os.getenv('BKASH_APP_SECRET')
 BKASH_USERNAME = os.getenv('BKASH_USERNAME')
 BKASH_PASSWORD = os.getenv('BKASH_PASSWORD')
-BKASH_SANDBOX = os.getenv('BKASH_SANDBOX') == 'True'
+BKASH_SANDBOX = os.getenv('BKASH_SANDBOX') == 'False'
 BKASH_BASE_URL = os.getenv('BKASH_BASE_URL')
 
 # send email configaration

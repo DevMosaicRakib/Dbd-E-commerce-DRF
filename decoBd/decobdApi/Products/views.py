@@ -30,7 +30,12 @@ class SingleProductView(APIView):
         except Product.DoesNotExist:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
+class FeaturedProductView(APIView):
+  def get(self,request,format=None):
+    featuredProductData = FeaturedProduct.objects.all()
+    serializer = FeaturedProductSerializer(featuredProductData,many=True)
+    return Response(serializer.data)
+    
 # Home Page Product View
 
 # Monitor Stand Category Start**
