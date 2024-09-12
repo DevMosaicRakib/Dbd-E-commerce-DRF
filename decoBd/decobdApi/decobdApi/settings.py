@@ -12,9 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -180,12 +178,12 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # bkash payment configaration
-BKASH_APP_KEY = os.getenv('BKASH_APP_KEY')
-BKASH_APP_SECRET = os.getenv('BKASH_APP_SECRET')
-BKASH_USERNAME = os.getenv('BKASH_USERNAME')
-BKASH_PASSWORD = os.getenv('BKASH_PASSWORD')
-BKASH_SANDBOX = os.getenv('BKASH_SANDBOX') == 'False'
-BKASH_BASE_URL = os.getenv('BKASH_BASE_URL')
+BKASH_APP_KEY = '4f6o0cjiki2rfm34kfdadl1eqq'
+BKASH_APP_SECRET = '2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b'
+BKASH_USERNAME = 'sandboxTokenizedUser02'
+BKASH_PASSWORD = 'sandboxTokenizedUser02@12345'
+BKASH_SANDBOX = True
+BKASH_BASE_URL = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta'
 
 # send email configaration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -193,7 +191,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "Decorationbd"
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = "rakibhasan2222222@gmail.com"
+EMAIL_HOST_PASSWORD = "ryjngszaumoiqdcl"
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'

@@ -1,0 +1,17 @@
+
+git.txt
+decobdApi/db.sqlite3
+/test.txt
+.scripts
+test.txt
+env
+/env
+venv
+/venv
+*.scripts
+node_modules
+/frontend/node_modules
+
+
+
+
